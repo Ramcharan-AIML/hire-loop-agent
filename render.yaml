@@ -8,7 +8,7 @@ services:
     runtime: docker
     dockerfilePath: ./services/job-agent/Dockerfile
     dockerContext: ./services/job-agent
-    plan: starter            # Chromium/Playwright needs more than the free tier's RAM
+    plan: free               # free tier is fine when Firecrawl handles scraping (no local Chromium)
     healthCheckPath: /healthz
     envVars:
       - key: FIRECRAWL_API_KEY
