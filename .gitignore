@@ -1,0 +1,41 @@
+# ──────────────────────────────────────────────────────────────
+# SECRETS — never commit real env files or keys (CRITICAL)
+# Ignore every .env / .env.* anywhere, but keep the *.example templates.
+# ──────────────────────────────────────────────────────────────
+.env
+.env.*
+**/.env
+**/.env.*
+!.env.example
+!**/.env.example
+
+# Misc secret-ish artifacts
+*.pem
+*.key
+secrets.*
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+.pytest_cache/
+
+# Node / Next.js
+node_modules/
+.next/
+.vercel/
+next-env.d.ts
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# Output / logs / audit trails (may contain personal data)
+output/
+*.log
+**/outreach_log*.csv
+**/naukri_debug_*

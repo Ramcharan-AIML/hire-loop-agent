@@ -1,0 +1,52 @@
+[
+  {
+    "recipient_email": "yachamaneniramcharan49@example.com",
+    "recipient_name": "Ram Charan",
+    "company": "Acme AI",
+    "role": "Backend Engineering Intern",
+    "candidate_name": "Rajesh Kumar",
+    "candidate_background": "Python developer with a strong interest in backend automation and AI agents.",
+    "job_url": "https://example.com/jobs/backend-intern",
+    "personalization_note": "I came across Acme AI's open-source workflow automation product and was impressed by its potential."
+  },
+  {
+    "recipient_email": "david.carter@stellarhealth.org",
+    "recipient_name": "David Carter",
+    "company": "Stellar Health",
+    "role": "Junior Data Engineer",
+    "candidate_name": "Rajesh Kumar",
+    "candidate_background": "Python developer skilled in data ingestion pipelines, SQL database design, and ETL workloads.",
+    "job_url": "https://stellarhealth.org/careers/data-engineer",
+    "personalization_note": "I read about Stellar Health's recent healthcare integration platform launch and loved the focus on patient accessibility."
+  },
+  {
+    "recipient_email": "evelyn@cloudscale.io",
+    "recipient_name": "Evelyn",
+    "company": "CloudScale",
+    "role": "Associate Developer",
+    "candidate_name": "Rajesh Kumar",
+    "candidate_background": "Computer Science student with internship experience building scalable API services in AWS environments.",
+    "job_url": "https://cloudscale.io/jobs/associate-dev",
+    "personalization_note": "Your recent engineering blog post about migrating 200 servers to serverless architecture was super informative."
+  },
+  {
+    "recipient_email": "arjun@finflow.tech",
+    "recipient_name": "Arjun",
+    "company": "FinFlow Tech",
+    "role": "Backend Analyst",
+    "candidate_name": "Rajesh Kumar",
+    "candidate_background": "Python backend developer with a double major in CS and Finance, interested in algorithmic ledger systems.",
+    "job_url": "https://finflow.tech/jobs/backend-analyst",
+    "personalization_note": "I noticed FinFlow Tech's emphasis on high-throughput microservices which perfectly aligns with my coursework research."
+  },
+  {
+    "recipient_email": "sarah@cyberdyne.systems",
+    "recipient_name": "Sarah",
+    "company": "Cyberdyne Systems",
+    "role": "Automation Engineer",
+    "candidate_name": "Rajesh Kumar",
+    "candidate_background": "Python developer specializing in test suite automation, CI/CD pipelines, and infrastructure as code.",
+    "job_url": "https://cyberdyne.systems/jobs/automation",
+    "personalization_note": "I've been following Cyberdyne's robotic orchestration framework and would love to contribute to its reliability."
+  }
+]

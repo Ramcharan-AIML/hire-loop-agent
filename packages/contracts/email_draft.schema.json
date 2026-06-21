@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://platform.local/contracts/email_draft.schema.json",
+  "title": "EmailDraft",
+  "description": "Generated outreach email returned by Cold Mail Service /generate, before the human approval gate. Mirrors the EmailDraft dataclass in cold_mail_sender/models.py. See docs/architecture.md §4 and §5.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["subject", "body", "word_count"],
+  "properties": {
+    "subject": { "type": "string", "description": "Email subject line" },
+    "body": { "type": "string", "description": "Email body (capped ~150 words by the generator)" },
+    "word_count": { "type": "integer", "minimum": 0, "description": "Word count of the body" }
+  }
+}

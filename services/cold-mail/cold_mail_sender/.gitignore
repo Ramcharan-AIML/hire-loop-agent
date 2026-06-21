@@ -1,0 +1,6 @@
+.env
+outreach_log.csv
+outreach_log_backup.txt
+__pycache__/
+*.pyc
+.pytest_cache/

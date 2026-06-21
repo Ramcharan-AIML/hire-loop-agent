@@ -1,0 +1,161 @@
+import { TailoringRun } from "../schemas/tailoring-run";
+import { sampleResume } from "./sample-resume";
+import { sampleJD } from "./sample-jd";
+
+export const sampleTailoringRun: TailoringRun = {
+  runId: "run_88a38bdf-c5e3-4fba-bb20-4e78ea9c8192",
+  timestamp: new Date().toISOString(),
+  originalResume: sampleResume,
+  jobDescription: sampleJD,
+  originalMatch: {
+    overallScore: 52,
+    skillCoverageScore: 45,
+    responsibilityAlignmentScore: 50,
+    keywordScore: 40,
+    seniorityScore: 75,
+    criticalMissingRequirements: ["Next.js", "TypeScript", "Tailwind CSS", "Playwright", "CI/CD"],
+    explanation: "The original resume demonstrates solid core React and JavaScript foundation but lacks explicit mention of modern frameworks like Next.js, styling utilities like Tailwind CSS, and advanced TypeScript types. It also highlights testing in Jest rather than the required Playwright, and shows no CI/CD pipeline experience.",
+  },
+  tailoredMatch: {
+    overallScore: 88,
+    skillCoverageScore: 85,
+    responsibilityAlignmentScore: 90,
+    keywordScore: 88,
+    seniorityScore: 90,
+    criticalMissingRequirements: ["Playwright (Willingness to learn)", "CI/CD (Basic workflow experience)"],
+    explanation: "After tailoring, the candidate's resume highlights React experience specifically aligned with Next.js concepts and modern responsive styling. Experience bullets have been rephrased to emphasize dashboard layout building, strict API typing, and Core Web Vitals optimization. Overall relevance is massively improved.",
+  },
+  tailoredResume: {
+    tailoredSummary: "Experienced, results-oriented frontend developer with over 4 years of experience building premium, highly responsive React web applications. Proven track record of leveraging Next.js concepts, responsive modern layouts, and TypeScript to engineer robust user interfaces and optimize Core Web Vitals.",
+    tailoredSkills: [
+      "React",
+      "TypeScript",
+      "Next.js (Concepts)",
+      "Tailwind CSS",
+      "State Management",
+      "JavaScript",
+      "Redux",
+      "HTML5",
+      "CSS3",
+      "CI/CD (Basic flow)",
+      "Node.js",
+      "Jest",
+      "RESTful APIs",
+      "Git",
+    ],
+    tailoredExperience: [
+      {
+        company: "InnovateTech Solutions",
+        title: "Software Engineer",
+        location: "San Francisco, CA",
+        startDate: "Oct 2022",
+        endDate: "Present",
+        bullets: [
+          {
+            original: "Built responsive websites using React and Redux for corporate clients, resulting in high customer satisfaction.",
+            tailored: "Engineered responsive, highly interactive user interfaces from the ground up using React, Redux, and Next.js.",
+            changeReason: "Aligned description with target JD's preferred vocabulary ('engineered', 'highly interactive user interfaces', 'Next.js').",
+            keywordsAddressed: ["React", "Next.js", "highly interactive"],
+            confidence: "high",
+          },
+          {
+            original: "Collaborated with project managers and designers to develop new features and user interfaces.",
+            tailored: "Collaborated in sprint cycles to implement premium design specifications with responsive Tailwind CSS layouts.",
+            changeReason: "Mapped generic styling and collaboration to JD terms ('Tailwind CSS layouts', 'premium').",
+            keywordsAddressed: ["Tailwind CSS", "responsive"],
+            confidence: "high",
+          },
+          {
+            original: "Wrote automated tests using Jest and optimized build sizes to speed up website loading speeds.",
+            tailored: "Wrote thorough automated tests, optimizing Core Web Vitals to achieve high page rendering scores.",
+            changeReason: "Integrated critical JD vocabulary ('thorough automated tests', 'Core Web Vitals', 'rendering scores').",
+            keywordsAddressed: ["Core Web Vitals", "automated tests"],
+            confidence: "high",
+            riskFlag: "Original bullets only verify Jest experience. Ensure you are familiar with browser-based testing concepts.",
+          },
+          {
+            original: "Participated in weekly code reviews and sprint planning sessions to maintain high code quality standards.",
+            tailored: "Maintained standard code quality conventions through thorough TypeScript declarations and peer reviews.",
+            changeReason: "Emphasized JD's TypeScript focus, tying it to original context of code quality.",
+            keywordsAddressed: ["TypeScript"],
+            confidence: "medium",
+          },
+        ],
+      },
+      {
+        company: "WebCraft Apps",
+        title: "Junior Web Developer",
+        location: "Oakland, CA",
+        startDate: "Jul 2020",
+        endDate: "Sep 2022",
+        bullets: [
+          {
+            original: "Developed custom dashboard layouts and landing pages with CSS3, HTML5, and vanilla JavaScript.",
+            tailored: "Developed custom high-performance dashboard layouts and landing pages with CSS3, HTML5, and responsive styles.",
+            changeReason: "Emphasized dashboard experience matching domain signals in JD.",
+            keywordsAddressed: ["dashboard layouts", "responsive"],
+            confidence: "high",
+          },
+          {
+            original: "Maintained and updated customer portals, resolving visual bugs and updating outdated text details.",
+            tailored: "Maintained core customer portals, resolving visual alignment bugs and optimizing frontend responsiveness.",
+            changeReason: "Replaced generic bug resolution with frontend responsiveness context.",
+            keywordsAddressed: ["responsiveness"],
+            confidence: "high",
+          },
+          {
+            original: "Integrated REST APIs to load user data dynamically into front-end grid lists.",
+            tailored: "Integrated secure RESTful APIs to feed user data dynamically into typed React grid components.",
+            changeReason: "Updated database list integration with modern React components context.",
+            keywordsAddressed: ["React", "APIs"],
+            confidence: "high",
+          },
+        ],
+      },
+    ],
+    tailoredProjects: [
+      {
+        name: "Personal Portfolio Site",
+        description: "Interactive portfolio showcase demonstrating key projects and front-end skills.",
+        technologies: ["React", "Next.js", "Tailwind CSS", "Git"],
+        bullets: [
+          {
+            original: "Designed clean layouts from scratch and implemented responsive media queries.",
+            tailored: "Designed premium layouts incorporating clean UX design principles and responsive layouts.",
+            changeReason: "Mapped layout design to JD's preferred terms ('UX design principles', 'premium').",
+            keywordsAddressed: ["UX design principles", "premium"],
+            confidence: "medium",
+          },
+          {
+            original: "Integrated contact form submission endpoint with automated spam filters.",
+            tailored: "Integrated form submission endpoints, establishing standard automated pipeline actions.",
+            changeReason: "Adapted form submissions to align with pipeline deployment concepts.",
+            keywordsAddressed: ["automated pipeline"],
+            confidence: "low",
+            riskFlag: "Slight stretch. The original refers to email form spam filters rather than deployment pipelines.",
+          },
+        ],
+      },
+    ],
+  },
+  gapAnalysis: {
+    gaps: [
+      {
+        name: "Playwright Automated Testing",
+        importance: "high",
+        jdEvidence: "Write thorough automated tests using Playwright",
+        resumeEvidence: "The candidate only has experience with Jest and unit testing, not end-to-end browser testing.",
+        suggestedAction: "Prepare to address this in your interview. Emphasize your deep testing foundation with Jest and state that you are highly motivated and ready to quickly transition to Playwright.",
+        canSafelyAdd: false,
+      },
+      {
+        name: "CI/CD Deployments",
+        importance: "medium",
+        jdEvidence: "maintain standard CI/CD deployment pipelines",
+        resumeEvidence: "No active mention of code deployment or integration systems (GitHub Actions, Jenkins, etc.) in the original bullets.",
+        suggestedAction: "If you have light familiarity, you can list CI/CD under your Skills section. If asked, prepare to discuss any hobby projects where you configured Vercel or Netlify webhooks.",
+        canSafelyAdd: false,
+      },
+    ],
+  },
+};

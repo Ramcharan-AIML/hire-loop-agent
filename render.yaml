@@ -1,0 +1,52 @@
+# Render Blueprint — deploys the two Python services as Docker web services.
+# (The Next.js frontend deploys separately on Vercel.)
+# Usage: push this repo to GitHub, then in Render: New > Blueprint > pick this repo.
+# Set the secret env vars (marked sync:false) in the Render dashboard after creation.
+services:
+  - type: web
+    name: job-agent
+    runtime: docker
+    dockerfilePath: ./services/job-agent/Dockerfile
+    dockerContext: ./services/job-agent
+    plan: starter            # Chromium/Playwright needs more than the free tier's RAM
+    healthCheckPath: /healthz
+    envVars:
+      - key: FIRECRAWL_API_KEY
+        sync: false
+      - key: INTERNAL_API_KEY
+        sync: false
+      - key: PLAYWRIGHT_HEADLESS
+        value: "true"
+
+  - type: web
+    name: cold-mail
+    runtime: docker
+    dockerfilePath: ./services/cold-mail/Dockerfile
+    dockerContext: ./services/cold-mail
+    plan: starter
+    healthCheckPath: /healthz
+    envVars:
+      - key: GROQ_API_KEY
+        sync: false
+      - key: LLM_PROVIDER
+        value: groq
+      - key: LLM_MODEL
+        value: llama-3.1-8b-instant
+      - key: SMTP_HOST
+        value: smtp.gmail.com
+      - key: SMTP_PORT
+        value: "587"
+      - key: SMTP_USER
+        sync: false
+      - key: SMTP_PASSWORD
+        sync: false
+      - key: SENDER_NAME
+        sync: false
+      - key: DRY_RUN
+        value: "true"          # flip to "false" only when ready to send real email
+      - key: SEND_MODE
+        value: draft
+      - key: MAX_OUTREACH_PER_RUN
+        value: "5"
+      - key: INTERNAL_API_KEY
+        sync: false

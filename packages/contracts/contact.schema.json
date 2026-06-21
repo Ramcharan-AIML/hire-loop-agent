@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://platform.local/contracts/contact.schema.json",
+  "title": "Contact",
+  "description": "Outreach target consumed by the Cold Mail Service. Mirrors the Contact dataclass in cold_mail_sender/models.py. See docs/architecture.md §4.3.  ENRICHMENT GAP (architecture §4.4): JobRecord has no recruiter email/name, but recipient_email is REQUIRED here. In the MVP, recipient_email (and optional recipient_name) are USER-SUPPLIED in the /outreach UI step before drafting. All other fields are auto-mapped from the JobRecord, parsed resume, and TailoredResume.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "recipient_email",
+    "company",
+    "role",
+    "candidate_name",
+    "candidate_background"
+  ],
+  "properties": {
+    "recipient_email": {
+      "type": "string",
+      "format": "email",
+      "description": "Recruiter/hiring-manager email. USER-SUPPLIED in MVP (enrichment gap)."
+    },
+    "company": { "type": "string", "description": "Auto-mapped from JobRecord.company" },
+    "role": { "type": "string", "description": "Auto-mapped from JobRecord.job_title" },
+    "candidate_name": { "type": "string", "description": "From the candidate profile / parsed resume" },
+    "candidate_background": { "type": "string", "description": "From the candidate profile / parsed resume" },
+    "recipient_name": {
+      "type": ["string", "null"],
+      "default": null,
+      "description": "Recruiter name. Optional, user-supplied (enrichment gap)."
+    },
+    "job_url": {
+      "type": ["string", "null"],
+      "default": null,
+      "description": "Auto-mapped from JobRecord.job_url"
+    },
+    "portfolio_url": { "type": ["string", "null"], "default": null },
+    "personalization_note": {
+      "type": ["string", "null"],
+      "default": null,
+      "description": "Derived from JD / gap-analysis"
+    },
+    "linkedin_url": { "type": ["string", "null"], "default": null },
+    "resume_link": {
+      "type": ["string", "null"],
+      "default": null,
+      "description": "Auto-mapped from TailoredResume.pdf_url"
+    }
+  }
+}
