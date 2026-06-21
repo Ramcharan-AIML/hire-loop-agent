@@ -10,7 +10,6 @@ import ErrorBoundary from "../ui/ErrorBoundary";
 interface AppShellProps {
   children: React.ReactNode;
 }
-
 export default function AppShell({ children }: AppShellProps) {
   return (
     <div className="relative min-h-screen flex flex-col overflow-x-hidden bg-[#f8fafc]">
@@ -31,6 +30,7 @@ export default function AppShell({ children }: AppShellProps) {
           </div>
         </div>
       </main>
+
 
       {/* Footer */}
       <footer className="border-t border-slate-100 bg-white py-6 z-10 relative">
