@@ -24,8 +24,10 @@ export default function StepIndicator() {
   // Determine current active step index
   const activeIndex = STEPS.findIndex((step) => pathname === step.path);
 
+  
   // If pathname is not one of our stepped routes, don't show
   if (activeIndex === -1) return null;
+
 
   return (
     <div className="w-full py-4 px-4 glass-panel rounded-xl mb-8 animate-fade-in-up">
