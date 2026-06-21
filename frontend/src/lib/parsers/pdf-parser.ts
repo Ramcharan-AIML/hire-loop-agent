@@ -1,8 +1,3 @@
-import * as _pdfParse from "pdf-parse";
-
-// Handle CommonJS / ESM default export differences
-const pdfParse = ((_pdfParse as any).default || _pdfParse) as any;
-
 export async function parsePDF(buffer: Buffer): Promise<{ text: string; error?: string }> {
   try {
     // Basic file header magic byte validation: PDF must start with '%PDF-'
@@ -13,6 +8,14 @@ export async function parsePDF(buffer: Buffer): Promise<{ text: string; error?: 
         error: "This file is not a valid PDF document. Please verify the file extension or upload a text-based PDF.",
       };
     }
+
+    // Lazy-load pdf-parse INSIDE the function. Importing it at module top level
+    // crashes on Vercel serverless (it runs test code that reads a local file),
+    // which would 500 the whole route — even for non-PDF (raw text) requests.
+    const _pdfParse = await import("pdf-parse");
+    const pdfParse = ((_pdfParse as unknown as { default?: unknown }).default || _pdfParse) as (
+      b: Buffer
+    ) => Promise<{ text?: string }>;
 
     const data = await pdfParse(buffer);
     const text = data.text ? data.text.trim() : "";

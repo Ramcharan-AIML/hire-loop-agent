@@ -1,5 +1,3 @@
-import mammoth from "mammoth";
-
 export async function parseDOCX(buffer: Buffer): Promise<{ text: string; error?: string }> {
   try {
     // Magic byte validation: Word (DOCX) is a ZIP archive, starting with 'PK' (0x50, 0x4B)
@@ -11,6 +9,8 @@ export async function parseDOCX(buffer: Buffer): Promise<{ text: string; error?:
       };
     }
 
+    // Lazy-load mammoth inside the function (parity with the PDF parser).
+    const mammoth = (await import("mammoth")).default;
     const result = await mammoth.extractRawText({ buffer });
     const text = result.value ? result.value.trim() : "";
 
