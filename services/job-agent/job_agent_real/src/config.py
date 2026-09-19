@@ -32,6 +32,12 @@ FIRECRAWL_API_KEY = os.getenv("FIRECRAWL_API_KEY", "")
 REQUEST_DELAY = int(os.getenv("REQUEST_DELAY", "2"))
 NAUKRI_PAGES = int(os.getenv("NAUKRI_PAGES", "3"))
 
+# Run the Playwright fallback browser headless. Set to "false" to watch it
+# work while debugging a selector.
+PLAYWRIGHT_HEADLESS = os.getenv("PLAYWRIGHT_HEADLESS", "true").strip().lower() not in (
+    "false", "0", "no", "off",
+)
+
 # Default User-Agent header — mimics a real browser to reduce bot-detection
 USER_AGENT = (
     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "

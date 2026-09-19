@@ -9,6 +9,7 @@ import {
   EmailDraft,
   LogEntry,
   SearchRequest,
+  DescriptionResponse,
 } from "@/lib/schemas/platform";
 
 interface ApiEnvelope<T> {
@@ -32,6 +33,14 @@ async function postJSON<T>(url: string, body: unknown): Promise<T> {
 
 export async function searchJobs(req: SearchRequest): Promise<{ count: number; jobs: JobRecord[] }> {
   return postJSON("/api/jobs/search", req);
+}
+
+/**
+ * Fetch the full description for one listing. Slow (it renders the detail page
+ * behind anti-bot protection), so call it only for the job the user picked.
+ */
+export async function fetchJobDescription(jobUrl: string): Promise<DescriptionResponse> {
+  return postJSON("/api/jobs/description", { job_url: jobUrl });
 }
 
 export async function generateEmail(contact: OutreachContact): Promise<EmailDraft> {

@@ -20,8 +20,24 @@ export const JobRecordSchema = z.object({
   source: z.string().default(""),
   date_posted: z.string().default(""),
   date_scraped: z.string().default(""),
+  // Only /api/jobs/description fills this in; /search returns card metadata.
+  description: z.string().default(""),
 });
 export type JobRecord = z.infer<typeof JobRecordSchema>;
+
+// --- Full job description (Job Agent Service /job-description) ---
+export const DescriptionRequestSchema = z.object({
+  job_url: z.string().url("A valid job URL is required"),
+});
+export type DescriptionRequest = z.infer<typeof DescriptionRequestSchema>;
+
+export const DescriptionResponseSchema = z.object({
+  job_url: z.string().default(""),
+  description: z.string().default(""),
+  strategy: z.string().default("none"),
+  char_count: z.number().default(0),
+});
+export type DescriptionResponse = z.infer<typeof DescriptionResponseSchema>;
 
 export const SearchRequestSchema = z.object({
   role: z.string().min(1, "Role is required"),

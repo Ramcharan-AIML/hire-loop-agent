@@ -65,7 +65,7 @@ Wait for everyone to paste it. Confirm: *"Show me a 'go' in chat once you've pas
 This is your TEACHING window. The agent is silently writing ~17 files. Use this time to explain the building blocks. Pick 3-4 of these mini-lessons:
 
 #### Mini-lesson 1 — "What is Groq?" (2 min)
-> *"Groq is a chip company. They built custom hardware that runs Llama models 5-10x faster than the GPUs everyone else uses. That's why our responses come back in 2 seconds instead of 20. Free tier is super generous — 14,400 requests a day per key, which is more than your workshop will ever need."*
+> *"Groq is a chip company. They built custom hardware that runs open-weight models like OpenAI's GPT-OSS-120B 5-10x faster than the GPUs everyone else uses. That's why our responses come back in 2 seconds instead of 20. Free tier is super generous — 14,400 requests a day per key, which is more than your workshop will ever need."*
 
 #### Mini-lesson 2 — "What is a Zod schema?" (2 min)
 > *"The agent is writing what's called Zod schemas right now. Zod is a tool that says 'I expect data in EXACTLY this shape — if the AI returns something different, throw an error.' This is huge — without Zod, when the AI hallucinates and returns broken JSON, your app crashes. With Zod, you retry. We use Zod everywhere. That's why this app is rock-solid."*

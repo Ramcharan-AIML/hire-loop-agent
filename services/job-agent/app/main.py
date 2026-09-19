@@ -23,9 +23,16 @@ if str(JOB_AGENT_ROOT) not in sys.path:
 
 from src.orchestrator import collect_jobs  # noqa: E402
 from src.models.job import Job  # noqa: E402
+from src.scrapers import fetch_job_description  # noqa: E402
 from src.config import setup_logging  # noqa: E402
 
-from .schemas import SearchRequest, SearchResponse, JobRecord  # noqa: E402
+from .schemas import (  # noqa: E402
+    SearchRequest,
+    SearchResponse,
+    JobRecord,
+    DescriptionRequest,
+    DescriptionResponse,
+)
 
 # Surface the vendored scrapers' logs (Firecrawl/Playwright/etc.) in the service
 # output for observability (architecture.md §10). The CLI did this; the API must too.
@@ -80,6 +87,37 @@ def search(req: SearchRequest, x_internal_key: str = Header(default="")):
 
     records = [JobRecord(**job.to_dict()) for job in jobs]
     return SearchResponse(count=len(records), jobs=records)
+
+
+@app.post("/job-description", response_model=DescriptionResponse)
+def job_description(req: DescriptionRequest, x_internal_key: str = Header(default="")):
+    """Fetch the FULL description for one listing (architecture.md §3.1).
+
+    /search only returns listing-card metadata; the description lives on the
+    detail page. This is a separate call because it costs a rendered page load
+    per job, so it runs on demand for the one job the user picked.
+
+    Never raises on scrape failure: an empty description with strategy="none"
+    lets the caller fall back to card metadata instead of blocking the flow.
+    """
+    _auth(x_internal_key)
+
+    url = (req.job_url or "").strip()
+    if not url.startswith("http"):
+        raise HTTPException(status_code=400, detail="job_url must be an absolute http(s) URL")
+
+    try:
+        text, strategy = fetch_job_description(url)
+    except Exception as e:
+        # Defensive: fetch_job_description already swallows per-strategy errors.
+        raise HTTPException(status_code=502, detail=f"description fetch failed: {e}")
+
+    return DescriptionResponse(
+        job_url=url,
+        description=text,
+        strategy=strategy,
+        char_count=len(text),
+    )
 
 
 @app.get("/export.csv")

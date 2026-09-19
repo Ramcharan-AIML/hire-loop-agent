@@ -26,6 +26,33 @@ from src.models.job import Job
 from src import config
 
 
+# Naukri renders an AmbitionBox rating block right after the company name
+# ("Infosys 3.5 52.2K Reviews"). Strip that tail so the company name stays a
+# company name — it is used verbatim in outreach emails.
+_RATING_TAIL = re.compile(
+    r"\s*\d+(?:\.\d+)?\s*[\d,.]*\s*[KkMm]?\s*Reviews?\s*$", re.I
+)
+_LEADING_RATING = re.compile(r"^\s*\d+(?:\.\d+)?\s+(?=[A-Za-z])")
+
+
+def _clean_company(name: str) -> str:
+    """Normalize a scraped company name (rating tails, image alt text, noise)."""
+    if not name:
+        return ""
+
+    cleaned = re.sub(r"!\[[^\]]*\]\([^)]*\)", "", name)
+    cleaned = re.sub(r"\[([^\]]+)\]\([^)]*\)", r"\1", cleaned)
+    cleaned = cleaned.replace("\\", " ")
+    cleaned = _RATING_TAIL.sub("", cleaned)
+    cleaned = _LEADING_RATING.sub("", cleaned)
+    cleaned = re.sub(r"[*#\[\]]", "", cleaned)
+    cleaned = re.sub(r"\s+", " ", cleaned).strip(" ,|-").strip()
+
+    if not cleaned or "logo" in cleaned.lower() or cleaned.startswith("!"):
+        return ""
+    return cleaned
+
+
 class NaukriScraper(BaseScraper):
     """Scrapes job listings from Naukri.com."""
 
@@ -410,6 +437,10 @@ class NaukriScraper(BaseScraper):
                     continue
 
                 clean_line = re.sub(r'[*#]', '', line).strip()
+                # Drop markdown IMAGES first. Collapsing links before this turns
+                # "![Infosys logo](...)" into "!Infosys logo", which then got
+                # picked up as the company name.
+                clean_line = re.sub(r'!\[[^\]]*\]\([^)]*\)', '', clean_line).strip()
                 # Collapse any markdown links [text](url) down to just their text.
                 clean_line = re.sub(r'\[([^\]]+)\]\([^)]*\)', r'\1', clean_line).strip()
 
@@ -417,6 +448,9 @@ class NaukriScraper(BaseScraper):
                 if not company and clean_line and clean_line != title:
                     # Skip leftover URLs/link fragments and metadata lines.
                     if clean_line.lower().startswith("http") or "](" in clean_line:
+                        pass
+                    # Image alt text ("Infosys logo", "Company Logo") is not a company.
+                    elif clean_line.startswith("!") or "logo" in clean_line.lower():
                         pass
                     elif not any(c in clean_line.lower() for c in ["experience", "salary", "skill", "location", "₹", "lpa", "yrs"]):
                         company = clean_line
@@ -442,7 +476,7 @@ class NaukriScraper(BaseScraper):
 
             return Job.create(
                 job_title=title,
-                company=company or "Unknown",
+                company=_clean_company(company) or "Unknown",
                 location=location,
                 source="Naukri",
                 job_url=job_url,
@@ -487,10 +521,18 @@ class NaukriScraper(BaseScraper):
                     for j in range(i+1, min(i+6, len(lines))):
                         ctx = lines[j].strip()
                         if not company and ctx and not re.search(r'\d+[-–]\d+', ctx):
-                            # Collapse markdown links to text, then drop leftover URL fragments.
-                            cand = re.sub(r'\[([^\]]+)\]\([^)]*\)', r'\1', ctx)
+                            # Drop images before links, else "![Acme logo](...)"
+                            # collapses to "!Acme logo" and lands in `company`.
+                            cand = re.sub(r'!\[[^\]]*\]\([^)]*\)', '', ctx)
+                            cand = re.sub(r'\[([^\]]+)\]\([^)]*\)', r'\1', cand)
                             cand = re.sub(r'[*#\[\]]', '', cand).strip()
-                            if cand and not cand.lower().startswith("http") and "](" not in cand:
+                            if (
+                                cand
+                                and not cand.lower().startswith("http")
+                                and "](" not in cand
+                                and not cand.startswith("!")
+                                and "logo" not in cand.lower()
+                            ):
                                 company = cand
                         exp_m = re.search(r'(\d+[-–]\d+\s*(?:yrs?|years?))', ctx, re.I)
                         if exp_m:
@@ -505,7 +547,7 @@ class NaukriScraper(BaseScraper):
                     if title and len(title) > 5:
                         jobs.append(Job.create(
                             job_title=title,
-                            company=company or "Unknown",
+                            company=_clean_company(company) or "Unknown",
                             location=location,
                             source="Naukri",
                             job_url=url,
@@ -626,7 +668,7 @@ class NaukriScraper(BaseScraper):
         """
         try:
             title = job_data.get("title", "").strip()
-            company = job_data.get("companyName", "").strip()
+            company = _clean_company(job_data.get("companyName", ""))
             jd_url = job_data.get("jdURL", "")
 
             if not title or not company:

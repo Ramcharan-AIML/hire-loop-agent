@@ -1,6 +1,6 @@
 # The Closer — Cold Email Writer + Send Bot
 
-**The Closer** is a safe-by-default, modular, human-in-the-loop cold email generation and delivery CLI tool written in Python. It parses outreach targets, dynamically writes highly personalized job outreach drafts using templates or **Groq LLM refinement (llama-3.1-8b-instant)**, displays interactive terminal previews for operator approval, performs safe delivery via dry-run or TLS-secure SMTP, and logs every outreach attempt into an append-only CSV audit trail.
+**The Closer** is a safe-by-default, modular, human-in-the-loop cold email generation and delivery CLI tool written in Python. It parses outreach targets, dynamically writes highly personalized job outreach drafts using templates or **Groq LLM refinement (openai/gpt-oss-120b)**, displays interactive terminal previews for operator approval, performs safe delivery via dry-run or TLS-secure SMTP, and logs every outreach attempt into an append-only CSV audit trail.
 
 ---
 
@@ -82,7 +82,7 @@ MAX_OUTREACH_PER_RUN=5     # Restricts the maximum number of targets processed p
 INPUT_PATH=contacts.json
 GROQ_API_KEY=your_groq_api_key_here
 LLM_PROVIDER=groq
-LLM_MODEL=llama-3.1-8b-instant
+LLM_MODEL=openai/gpt-oss-120b
 ```
 
 > [!IMPORTANT]
@@ -125,7 +125,7 @@ For each outreach target, the application will display a pretty-printed review c
 | `MAX_OUTREACH_PER_RUN` | Integer | `5` | Batch volume cap boundary. |
 | `INPUT_PATH` | String (File path) | `contacts.json` | JSON input file containing contact rows. |
 | `GROQ_API_KEY` | String | *(empty)* | Active Groq authorization token. |
-| `LLM_MODEL` | String | `llama-3.1-8b-instant` | Refinement LLM engine selection. |
+| `LLM_MODEL` | String | `openai/gpt-oss-120b` | Refinement LLM engine selection. |
 
 ---
 

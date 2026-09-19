@@ -39,8 +39,28 @@ class JobRecord(BaseModel):
     source: str
     date_posted: str = ""
     date_scraped: str
+    # Populated only by /job-description; /search returns card metadata only.
+    description: str = ""
 
 
 class SearchResponse(BaseModel):
     count: int
     jobs: List[JobRecord]
+
+
+class DescriptionRequest(BaseModel):
+    job_url: str = Field(
+        ..., description="Absolute URL of the job detail page to fetch."
+    )
+
+
+class DescriptionResponse(BaseModel):
+    job_url: str
+    description: str = Field(
+        "", description="Full description text; empty when every strategy failed."
+    )
+    strategy: str = Field(
+        "none",
+        description="Which fetch strategy succeeded: firecrawl | playwright | jsonld | none",
+    )
+    char_count: int = 0

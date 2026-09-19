@@ -54,7 +54,7 @@ export default function LoadingOverlay({ stage, isVisible }: LoadingOverlayProps
               Executing AI Reasoning Pipeline
             </h3>
             <span className="text-xs text-text-muted">
-              Leveraging Groq Llama-3.3 ultra-speed processing (Elapsed: <strong className="font-mono text-accent-secondary">{seconds}s</strong>)
+              Leveraging Groq GPT-OSS-120B ultra-speed reasoning (Elapsed: <strong className="font-mono text-accent-secondary">{seconds}s</strong>)
             </span>
           </div>
         </div>

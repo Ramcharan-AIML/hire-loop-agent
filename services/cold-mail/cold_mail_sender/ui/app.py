@@ -77,7 +77,9 @@ cfg.max_outreach_per_run = int(max_cap)
 # LLM Parameters configuration
 st.sidebar.markdown("---")
 st.sidebar.title("🤖 LLM Refinement Params")
-llm_model_sel = st.sidebar.selectbox("Completion Model", ["llama-3.1-8b-instant", "llama-3.3-70b-versatile"], index=0 if cfg.llm_model == "llama-3.1-8b-instant" else 1)
+MODEL_CHOICES = ["openai/gpt-oss-120b", "openai/gpt-oss-20b"]
+_model_index = MODEL_CHOICES.index(cfg.llm_model) if cfg.llm_model in MODEL_CHOICES else 0
+llm_model_sel = st.sidebar.selectbox("Completion Model", MODEL_CHOICES, index=_model_index)
 cfg.llm_model = llm_model_sel
 
 groq_key_input = st.sidebar.text_input("Groq API Token", value=cfg.groq_api_key or "", type="password")

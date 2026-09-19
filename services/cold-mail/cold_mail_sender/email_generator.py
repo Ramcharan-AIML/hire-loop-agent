@@ -90,6 +90,14 @@ def generate_email(contact: Contact, config: AppConfig | None = None) -> EmailDr
             f"Candidate Background: {contact.candidate_background}\n"
         )
         
+        # Reasoning models (gpt-oss family) bill their chain-of-thought as
+        # completion tokens, so the budget must cover reasoning + the email
+        # body. Keeping reasoning_effort low stops the model from burning the
+        # whole budget thinking and returning empty content.
+        extra_params = {}
+        if "gpt-oss" in config.llm_model.lower():
+            extra_params["reasoning_effort"] = "low"
+
         # Request completion
         completion = client.chat.completions.create(
             messages=[
@@ -98,11 +106,17 @@ def generate_email(contact: Contact, config: AppConfig | None = None) -> EmailDr
             ],
             model=config.llm_model,
             temperature=0.3,
-            max_tokens=500
+            max_completion_tokens=4096,
+            **extra_params
         )
         
         refined_body = completion.choices[0].message.content
         if not refined_body or not refined_body.strip():
+            if completion.choices[0].finish_reason == "length":
+                raise ValueError(
+                    f"{config.llm_model} hit the completion-token ceiling before "
+                    "producing a body (reasoning tokens count toward it)."
+                )
             raise ValueError("Groq returned an empty response.")
             
         # Post-validation sanitization

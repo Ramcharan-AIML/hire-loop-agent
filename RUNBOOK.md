@@ -35,7 +35,7 @@ Pipeline: **Discover → Tailor → Outreach → Done**
 | `FIRECRAWL_API_KEY` | job-agent | https://www.firecrawl.dev |
 | `PLAYWRIGHT_HEADLESS` | job-agent | `true` on servers |
 | `GROQ_API_KEY` | cold-mail + frontend | https://console.groq.com/keys |
-| `LLM_PROVIDER` / `LLM_MODEL` | cold-mail + frontend | `groq` / model id |
+| `LLM_PROVIDER` / `LLM_MODEL` | cold-mail + frontend | `groq` / `openai/gpt-oss-120b` (default) |
 | `SMTP_HOST`/`SMTP_PORT`/`SMTP_USER`/`SMTP_PASSWORD` | cold-mail | Gmail App Password, not your login password |
 | `SENDER_NAME` | cold-mail | Display name on outgoing mail |
 | `DRY_RUN` | cold-mail | **`true` by default**; `false` only to send real email |

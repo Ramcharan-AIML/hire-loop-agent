@@ -18,7 +18,7 @@ export function buildBulletRewriterPrompt(
         "endDate": "string",
         "bullets": [
           {
-            "original": "string",
+            "original": "string (REQUIRED, never empty - the exact original bullet text)",
             "tailored": "string",
             "changeReason": "string (Why the bullet was changed to align with the JD)",
             "keywordsAddressed": ["string"],
@@ -35,7 +35,7 @@ export function buildBulletRewriterPrompt(
         "technologies": ["string"],
         "bullets": [
           {
-            "original": "string",
+            "original": "string (REQUIRED, never empty - the project's existing bullet, or its description verbatim)",
             "tailored": "string",
             "changeReason": "string",
             "keywordsAddressed": ["string"],
@@ -62,8 +62,15 @@ ABSOLUTE ETHICAL BOUNDARY & INTEGRITY RULES:
    - 'confidence': 'high' (well-supported rephrase), 'medium' (slight lexical stretch), or 'low' (significant inference).
    - 'riskFlag': Include a warning if the rephrasing borders on overstating experience or requires caution. If there is no risk, omit this field or return an empty string.
 
-5. Reorder the 'skills' list to prioritize technologies and methodologies required by the JD. You may add basic familiarity descriptors to original skills (e.g., 'CI/CD (Concepts)') but do not invent entirely new fields.
-6. Output strict JSON matching the target structure below:
+5. RULE 5 (Provenance is mandatory): 'original' must NEVER be an empty string. It must be text that actually exists in the candidate's profile.
+   - For work experience, copy the matching bullet verbatim.
+   - For a project that has a non-empty 'bullets' array, copy the matching bullet verbatim.
+   - For a project that has NO bullets, use that project's 'description' text verbatim as 'original', and emit exactly ONE bullet for that project.
+   - If a project has neither bullets nor a description, return 'bullets': [] for it. Do NOT invent a bullet.
+   Preserve the input order of 'tailoredExperience' and 'tailoredProjects', and keep the same 'name' for each project so it can be matched back to the source.
+
+6. Reorder the 'skills' list to prioritize technologies and methodologies required by the JD. You may add basic familiarity descriptors to original skills (e.g., 'CI/CD (Concepts)') but do not invent entirely new fields.
+7. Output strict JSON matching the target structure below:
 ${schemaOutline}`,
     user: `Candidate's Original Resume:
 ${JSON.stringify(resume, null, 2)}

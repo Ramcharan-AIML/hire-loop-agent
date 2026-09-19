@@ -3,6 +3,11 @@ import sys
 from dataclasses import dataclass
 from dotenv import load_dotenv
 
+# `openai/gpt-oss-120b` is OpenAI's open-weight 120B MoE model served by Groq.
+# It is a reasoning model: its chain-of-thought is billed as completion tokens
+# and returned on a separate `reasoning` field, so `content` stays clean.
+DEFAULT_LLM_MODEL = "openai/gpt-oss-120b"
+
 @dataclass
 class AppConfig:
     smtp_host: str
@@ -82,7 +87,7 @@ def load_config() -> AppConfig:
         groq_api_key = None
         
     llm_provider = get_val("LLM_PROVIDER", "groq")
-    llm_model = get_val("LLM_MODEL", "llama-3.1-8b-instant")
+    llm_model = get_val("LLM_MODEL", DEFAULT_LLM_MODEL)
     
     return AppConfig(
         smtp_host=smtp_host,

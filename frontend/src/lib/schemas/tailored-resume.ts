@@ -2,9 +2,14 @@ import { z } from "zod";
 import { WorkExperienceSchema, ProjectSchema } from "./resume";
 
 export const TailoredBulletSchema = z.object({
-  original: z.string().min(1, "Original bullet text is required"),
+  // `original` is intentionally NOT `.min(1)`. A project that lists only a
+  // description (no bullets) gives the model nothing to quote, so it emits an
+  // empty `original`. Rejecting that here burned all 3 retries and failed the
+  // whole pipeline; instead the /api/tailor route repairs the provenance and
+  // downgrades confidence. See normalizeBullets() there.
+  original: z.string().default(""),
   tailored: z.string().min(1, "Tailored bullet text is required"),
-  changeReason: z.string().min(1, "Reason for tailoring is required"),
+  changeReason: z.string().default("Aligned with the target job description."),
   keywordsAddressed: z.array(z.string()).default([]),
   confidence: z.enum(["high", "medium", "low"]).default("high"),
   riskFlag: z.string().optional().or(z.literal("")), // Warnings about potential overstatement

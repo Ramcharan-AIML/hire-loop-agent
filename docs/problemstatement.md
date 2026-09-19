@@ -9,7 +9,7 @@ one slice of the job-hunting workflow:
 |---|---------|-----------|--------------|-------|-------------------|
 | 1 | **Job Agent (Real)** | [job-agent-real](https://github.com/Ramcharan-AIML/job-agent-real.git) | Searches, scrapes, normalizes and exports job listings from Naukri, RemoteOK and Wellfound into a unified CSV. | Python 3.10+ CLI · Firecrawl API · Playwright · BeautifulSoup | **NOT deployed** (runs locally as a CLI) |
 | 2 | **Resume Shapeshifter Agent** | [resume-shapeshifter-agent](https://github.com/Ramcharan-AIML/resume-shapeshifter-agent.git) | AI agent that tailors / re-shapes a resume to match a specific job description. | Next.js + TypeScript web app | **Deployed** — Vercel (`resume-shapeshifter-agent.vercel.app`) |
-| 3 | **Cold Mail Sender ("The Closer")** | [cold_mail_sender](https://github.com/Ramcharan-AIML/cold_mail_sender.git) | Generates personalized cold outreach emails (template or Groq LLM) with a human-approval gate, then delivers them over secure SMTP with audit logging. | Python 3.10+ CLI · Groq `llama-3.1-8b-instant` · SMTP/STARTTLS · Docker | **Deployed** (Dockerfile + dev container) |
+| 3 | **Cold Mail Sender ("The Closer")** | [cold_mail_sender](https://github.com/Ramcharan-AIML/cold_mail_sender.git) | Generates personalized cold outreach emails (template or Groq LLM) with a human-approval gate, then delivers them over secure SMTP with audit logging. | Python 3.10+ CLI · Groq `openai/gpt-oss-120b` · SMTP/STARTTLS · Docker | **Deployed** (Dockerfile + dev container) |
 
 Each project works well on its own, but the user has to manually carry data
 between them: export jobs to CSV from Project 1, copy each job description into

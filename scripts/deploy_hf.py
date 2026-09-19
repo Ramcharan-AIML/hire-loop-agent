@@ -50,7 +50,7 @@ services = {
         "secrets": {
             "GROQ_API_KEY": env["GROQ_API_KEY"],
             "LLM_PROVIDER": env.get("LLM_PROVIDER", "groq"),
-            "LLM_MODEL": env.get("LLM_MODEL", "llama-3.1-8b-instant"),
+            "LLM_MODEL": env.get("LLM_MODEL", "openai/gpt-oss-120b"),
             "SMTP_HOST": env.get("SMTP_HOST", "smtp.gmail.com"),
             "SMTP_PORT": env.get("SMTP_PORT", "587"),
             "SMTP_USER": env["SMTP_USER"],

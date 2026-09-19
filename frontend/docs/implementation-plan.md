@@ -1338,7 +1338,7 @@ resume-builder-project/
 | `LLM_PROVIDER` | Yes | `groq` or `gemini` |
 | `GROQ_API_KEY` | Conditional | Required if `LLM_PROVIDER=groq` |
 | `GOOGLE_API_KEY` | Conditional | Required if `LLM_PROVIDER=gemini` |
-| `LLM_MODEL` | No | Model override (default: `llama3-70b-8192` or `gemini-2.0-flash`) |
+| `LLM_MODEL` | No | Model override (default: `openai/gpt-oss-120b` or `gemini-2.0-flash`) |
 | `LLM_TEMPERATURE` | No | Temperature override (default: `0.3`) |
 | `LLM_MAX_RETRIES` | No | Max retry count (default: `3`) |
 | `NEXT_PUBLIC_APP_URL` | No | Base URL for PDF generation (default: `http://localhost:3000`) |

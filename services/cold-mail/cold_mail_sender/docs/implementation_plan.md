@@ -104,7 +104,7 @@ Exposes all configuration knobs with safe defaults (Arch §5.7):
 | `INPUT_PATH` | `contacts.json` | |
 | `GROQ_API_KEY` | *(empty)* | Optional, for LLM rewriting |
 | `LLM_PROVIDER` | `groq` | Provider selector |
-| `LLM_MODEL` | `llama-3.1-8b-instant` | Configurable model |
+| `LLM_MODEL` | `openai/gpt-oss-120b` | Configurable model |
 
 #### [NEW] `.gitignore`
 Must contain: `.env`, `outreach_log.csv`, `__pycache__/`, `*.pyc`
@@ -258,7 +258,7 @@ def generate_email(contact: Contact, config: AppConfig | None = None) -> EmailDr
 **Groq LLM refinement** (when `config.groq_api_key` is set):
 1. Generate base template draft.
 2. Send to Groq API with a system prompt enforcing the six-part anatomy, 150-word limit, and no-hallucination rules.
-3. Use `config.llm_model` dynamically (e.g., `llama-3.3-70b-versatile`).
+3. Use `config.llm_model` dynamically (e.g., `openai/gpt-oss-120b`).
 4. Post-validate the Groq output: check word count, strip accidental `Subject:` prefixes.
 5. If Groq fails (API error, word count exceeded, empty response): fall back to template with `WARNING`.
 

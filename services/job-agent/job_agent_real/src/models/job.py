@@ -24,6 +24,10 @@ class Job:
     source: str         # "Naukri" | "RemoteOK" | "Wellfound"
     date_posted: str
     date_scraped: str
+    # Full job description text, fetched on demand from the listing's detail
+    # page (see src/scrapers/job_description.py). Search results only carry
+    # card metadata, so this stays "" until someone asks for the detail page.
+    description: str = ""
 
     def to_dict(self) -> OrderedDict:
         """
@@ -56,6 +60,7 @@ class Job:
         experience: str = "",
         skills: str = "",
         date_posted: str = "",
+        description: str = "",
     ) -> "Job":
         """
         Factory method to create a Job with auto-filled date_scraped.
@@ -74,6 +79,7 @@ class Job:
             source=source.strip(),
             date_posted=date_posted.strip(),
             date_scraped=datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+            description=description.strip(),
         )
 
     def __str__(self) -> str:

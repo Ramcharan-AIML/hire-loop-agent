@@ -6,4 +6,4 @@ email-validator>=2.1.0      # for pydantic EmailStr
 
 # Vendored cold_mail_sender dependencies
 python-dotenv>=1.0.1
-groq>=0.9.0
+groq>=1.4.0            # >=1.x needed for max_completion_tokens / reasoning_effort (gpt-oss)

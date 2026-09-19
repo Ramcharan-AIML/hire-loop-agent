@@ -168,7 +168,7 @@ export default config;
 ```
 GROQ_API_KEY=PASTE_YOUR_GROQ_KEY_HERE
 GEMINI_API_KEY=PASTE_YOUR_GEMINI_KEY_HERE
-GROQ_MODEL=llama-3.3-70b-versatile
+GROQ_MODEL=openai/gpt-oss-120b
 GEMINI_MODEL=gemini-2.0-flash
 ```
 
@@ -177,7 +177,7 @@ GEMINI_MODEL=gemini-2.0-flash
 ```
 # Groq (used by Prompts 1 and 2): get a free key from https://console.groq.com/keys
 GROQ_API_KEY=
-GROQ_MODEL=llama-3.3-70b-versatile
+GROQ_MODEL=openai/gpt-oss-120b
 
 # Gemini (used by Prompt 3 — Mock Interview): get a free key from https://aistudio.google.com/apikey
 # Different provider = independent rate limit pool. No second Groq account needed.
@@ -484,7 +484,7 @@ export async function tailorResume(
     throw new Error("GROQ_API_KEY is missing in .env.local");
   }
 
-  const model = process.env.GROQ_MODEL ?? "llama-3.3-70b-versatile";
+  const model = process.env.GROQ_MODEL ?? "openai/gpt-oss-120b";
   const client = new Groq({ apiKey });
   const userPrompt = buildUserPrompt(resumeText, jdText);
 
@@ -1096,7 +1096,7 @@ export default function Page() {
       </header>
 
       <p className="mt-1 text-sm text-slate-500">
-        Powered by Groq + Llama 3.3 70B. Get a free key at{" "}
+        Powered by Groq + GPT-OSS-120B. Get a free key at{" "}
         <a
           href="https://console.groq.com/keys"
           target="_blank"

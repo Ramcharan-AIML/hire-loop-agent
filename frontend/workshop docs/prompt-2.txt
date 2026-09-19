@@ -409,7 +409,7 @@ export async function generateApplicationKit(input: {
     throw new Error("GROQ_API_KEY is missing in .env.local");
   }
 
-  const model = process.env.GROQ_MODEL ?? "llama-3.3-70b-versatile";
+  const model = process.env.GROQ_MODEL ?? "openai/gpt-oss-120b";
   const groq = new Groq({ apiKey });
 
   const messages: ChatCompletionMessageParam[] = [
@@ -1069,7 +1069,7 @@ export default function Page() {
       </header>
 
       <p className="mt-1 text-sm text-slate-500">
-        Powered by Groq + Llama 3.3 70B. Get a free key at{" "}
+        Powered by Groq + GPT-OSS-120B. Get a free key at{" "}
         <a
           href="https://console.groq.com/keys"
           target="_blank"

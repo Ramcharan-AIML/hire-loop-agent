@@ -221,7 +221,7 @@ export async function runInterviewTurn(
     );
   }
 
-  const model = process.env.GROQ_MODEL ?? "llama-3.3-70b-versatile";
+  const model = process.env.GROQ_MODEL ?? "openai/gpt-oss-120b";
   const groq = new Groq({ apiKey });
 
   const agentQuestionsAsked = conversation.filter(
@@ -616,7 +616,7 @@ export default function InterviewPage() {
           ))}
         </div>
         <p className="mt-2 text-xs text-slate-400">
-          Powered by Groq + Llama 3.3 70B
+          Powered by Groq + GPT-OSS-120B
         </p>
       </div>
 
@@ -1092,7 +1092,7 @@ export default function Page() {
       </header>
 
       <p className="mt-1 text-sm text-slate-500">
-        Powered by Groq + Llama 3.3 70B. Get a free key at{" "}
+        Powered by Groq + GPT-OSS-120B. Get a free key at{" "}
         <a
           href="https://console.groq.com/keys"
           target="_blank"

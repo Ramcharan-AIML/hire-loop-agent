@@ -132,7 +132,7 @@ export async function runStrategyAgent(resumeText: string, jdText: string): Prom
   const apiKey = process.env.GROQ_API_KEY;
   if (!apiKey) throw new Error("GROQ_API_KEY missing in .env.local");
 
-  const model = process.env.GROQ_MODEL ?? "llama-3.3-70b-versatile";
+  const model = process.env.GROQ_MODEL ?? "openai/gpt-oss-120b";
   const groq = new Groq({ apiKey });
 
   const messages: ChatCompletionMessageParam[] = [
@@ -481,7 +481,7 @@ I just built a complete AI-powered resume tailoring app from scratch.
 
 ⏱ Time: 90 minutes
 💰 Cost: $0
-🤖 Built with: Next.js + React + TypeScript + Groq's Llama 3.3 70B
+🤖 Built with: Next.js + React + TypeScript + Groq's GPT-OSS-120B
 
 The app has THREE features:
 
@@ -512,7 +512,7 @@ When you put this project on your resume, use one of these templates (pick the o
 
 ### For students / new grads:
 
-> **AI-Powered Resume Tailoring Platform** | *Next.js, React, TypeScript, Groq Llama 3.3 70B*
+> **AI-Powered Resume Tailoring Platform** | *Next.js, React, TypeScript, Groq GPT-OSS-120B*
 > • Built a full-stack web app that uses two AI agents (with Groq's tool-calling API) to tailor resumes to specific job descriptions, generate cover letters with a "recruiter lens" quality checker, and conduct adaptive mock interviews.
 > • Engineered deterministic safety guards (Zod schema validation, fabrication detection) to prevent the AI from inventing skills not present in the source resume.
 > • Designed a persisted state layer (Zustand + localStorage) so users keep their results across sessions.
@@ -527,7 +527,7 @@ When you put this project on your resume, use one of these templates (pick the o
 ### For LinkedIn "Projects" section (concise):
 
 > **Resume Shapeshifter — AI Agent Portfolio Project**
-> A multi-agent system (Next.js + Groq Llama 3.3 70B) that tailors resumes, generates cover letters with an automated quality check, and runs mock interviews — all grounded in the user's actual experience to prevent fabrication.
+> A multi-agent system (Next.js + Groq GPT-OSS-120B) that tailors resumes, generates cover letters with an automated quality check, and runs mock interviews — all grounded in the user's actual experience to prevent fabrication.
 
 ---
 

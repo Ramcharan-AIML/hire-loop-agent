@@ -64,7 +64,7 @@ Send this list to all 50 participants **2 days before** with a "please verify be
 
 | Account | Why | Where | Cost |
 |---|---|---|---|
-| **Groq Console** | Free LLM API (Llama 3.3 70B) | https://console.groq.com/ → sign in → API Keys → Create Key | **Free** — generous daily quota |
+| **Groq Console** | Free LLM API (GPT-OSS-120B) | https://console.groq.com/ → sign in → API Keys → Create Key | **Free** — generous daily quota |
 | **GitHub** | Push code, import to Vercel | https://github.com/signup | Free |
 | **Vercel** | Deploy the app to the public internet | https://vercel.com/signup → sign in with GitHub | Free Hobby tier |
 | **Anthropic account** (for Claude Code) | Authenticates Claude Code | Created when you log in to `claude` for the first time | Free tier available |
@@ -111,7 +111,7 @@ Then they paste Prompt 1.
 ```bash
 LLM_PROVIDER=groq
 GROQ_API_KEY=gsk_paste_your_key_here
-LLM_MODEL=llama-3.3-70b-versatile
+LLM_MODEL=openai/gpt-oss-120b
 LLM_TEMPERATURE=0.3
 LLM_MAX_RETRIES=3
 NEXT_PUBLIC_APP_URL=http://localhost:3000
@@ -154,7 +154,7 @@ PHASE 1 deliverables (must build):
 - Wire the pages with mock data from src/lib/mock-data/ so the app is navigable end-to-end before any LLM call.
 
 PHASE 2 deliverables (must build):
-- Create the provider-agnostic LLM client at src/lib/llm/client.ts with a generateStructuredOutput<T>(prompt, schema) method. Retry 3 times with exponential backoff. Validate every response with Zod. The Groq adapter (src/lib/llm/providers/groq.ts) uses groq-sdk with model "llama-3.3-70b-versatile" by default and respects the LLM_TEMPERATURE env var. Also stub the gemini adapter for parity.
+- Create the provider-agnostic LLM client at src/lib/llm/client.ts with a generateStructuredOutput<T>(prompt, schema) method. Retry 3 times with exponential backoff. Validate every response with Zod. The Groq adapter (src/lib/llm/providers/groq.ts) uses groq-sdk with model "openai/gpt-oss-120b" by default and respects the LLM_TEMPERATURE env var. Also stub the gemini adapter for parity.
 - Build all 5 prompt templates under src/prompts/ exactly as architecture.md §6 describes: jd-extraction.ts, resume-parser.ts, match-scoring.ts, bullet-rewriter.ts, gap-analysis.ts. The bullet-rewriter prompt MUST include the 4 truthfulness rules from architecture.md §7 verbatim. Every prompt must demand strict JSON output that matches its corresponding Zod schema.
 - Build all 5 API routes under src/app/api/: parse-resume, parse-jd, score, tailor, gap-analysis. Each route accepts JSON, calls the LLM client, validates the response, and returns { success, data } or { success: false, error }. The parse-resume route also accepts multipart/form-data with a file field and uses pdf-parse / mammoth to extract text before sending to the LLM.
 - Build the frontend orchestrator at src/lib/api/orchestrator.ts that runs the 6-stage pipeline IN ORDER: parse-resume → parse-jd → score (original) → tailor → gap-analysis → score (tailored). Stream progress events back so the UI can show stage progress.
@@ -303,7 +303,7 @@ Claude Code runs the prompts silently for 5-15 minutes each. That's your teachin
 |---|---|
 | **"What is a Zod schema?"** — Show `src/lib/schemas/resume.ts` once it's written. Point at one field. "This single line guarantees the LLM gives us back exactly this shape, or we retry." | Most have never seen runtime type validation. Big a-ha. |
 | **"Why 6 LLM stages instead of one big prompt?"** — Show the architecture.md §6 diagram. "Context drowning. Smaller prompts = better JSON compliance = fewer retries = cheaper + faster." | Frames the entire design philosophy. |
-| **"Why Groq?"** — Llama 3.3 70B at ~280 tokens/sec, generous free tier, OpenAI-compatible SDK. Show their console. | Justifies the "free" promise. |
+| **"Why Groq?"** — GPT-OSS-120B at ~280 tokens/sec, generous free tier, OpenAI-compatible SDK. Show their console. | Justifies the "free" promise. |
 
 ### During Prompt 2 (≈8 min of fill time)
 
@@ -334,7 +334,7 @@ Best path for 50 people: **GitHub Import** (no CLI surprises).
 5. Expand **Environment Variables**. Add:
    - `LLM_PROVIDER` = `groq`
    - `GROQ_API_KEY` = (their key)
-   - `LLM_MODEL` = `llama-3.3-70b-versatile`
+   - `LLM_MODEL` = `openai/gpt-oss-120b`
    - `NEXT_PUBLIC_APP_URL` = (leave blank, set after first deploy)
 6. Click **Deploy**. Wait ~90 seconds.
 7. Copy the generated `*.vercel.app` URL.

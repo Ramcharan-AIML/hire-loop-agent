@@ -91,7 +91,7 @@ The frontend is a **subdirectory** of the monorepo, so set the root directory.
    | `INTERNAL_API_KEY` | the same shared secret |
    | `GROQ_API_KEY` | your Groq key (for the tailor step) |
    | `LLM_PROVIDER` | `groq` |
-   | `LLM_MODEL` | `llama-3.3-70b-versatile` |
+   | `LLM_MODEL` | `openai/gpt-oss-120b` |
 4. **Deploy.** Vercel runs `next build` (verified passing locally) and gives a URL
    like `https://hire-loop-agent.vercel.app`.
 
@@ -106,7 +106,7 @@ npx vercel env add COLD_MAIL_URL production
 npx vercel env add INTERNAL_API_KEY production
 npx vercel env add GROQ_API_KEY production
 npx vercel env add LLM_PROVIDER production      # groq
-npx vercel env add LLM_MODEL production         # llama-3.3-70b-versatile
+npx vercel env add LLM_MODEL production         # openai/gpt-oss-120b
 npx vercel --prod
 ```
 

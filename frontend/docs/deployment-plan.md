@@ -67,7 +67,7 @@ Ensure these variables are added to your **Vercel Project Settings** under the *
 | `LLM_PROVIDER` | **Yes** | `groq` or `gemini` | Instructs the factory which adapter client to instantiate. |
 | `GROQ_API_KEY` | **Conditional** | `gsk_...` | Required if `LLM_PROVIDER=groq`. Get a free key from the [Groq Console](https://console.groq.com/). |
 | `GOOGLE_API_KEY` | **Conditional** | `AIzaSy...` | Required if `LLM_PROVIDER=gemini`. Upgrade to the pay-as-you-go tier on [Google AI Studio](https://aistudio.google.com/). |
-| `LLM_MODEL` | **No** | `llama-3.3-70b-versatile` | (Optional) Defaults to Llama-3.3 on Groq, or Gemini-2.0-Flash on Google. |
+| `LLM_MODEL` | **No** | `openai/gpt-oss-120b` | (Optional) Defaults to GPT-OSS-120B on Groq, or Gemini-2.0-Flash on Google. |
 | `LLM_TEMPERATURE` | **No** | `0.3` | Enforces rigid compliance (lower temperature minimizes hallucinations). |
 | `LLM_MAX_RETRIES` | **No** | `3` (or `6` for Gemini Free Tier) | Count of exponential backoff attempts on rate limits. |
 | `NEXT_PUBLIC_APP_URL` | **Yes** | `https://your-project.vercel.app` | Set this to your actual production Vercel URL. Used to resolve PDF links. |

@@ -1,7 +1,7 @@
 # Resume Shapeshifter — Single-Prompt Workshop Kit
 
 > **For:** Cursor or Google Antigravity, free tier.
-> **LLM:** Groq (free, Llama 3.3 70B).
+> **LLM:** Groq (free, GPT-OSS-120B).
 > **Cost to participants:** $0.
 > **Workshop duration:** 90 minutes.
 > **Design goal:** Maximum free-tier safety. ONE prompt. ~10 files generated. ONE LLM call per user session. No inter-prompt re-read phase.
@@ -80,7 +80,7 @@ Create .env.example:
 
     # Get your free Groq API key from: https://console.groq.com/keys
     GROQ_API_KEY=
-    GROQ_MODEL=llama-3.3-70b-versatile
+    GROQ_MODEL=openai/gpt-oss-120b
 
 Create .env.local with the same two keys but empty GROQ_API_KEY=. Confirm .env.local is in .gitignore.
 
@@ -124,7 +124,7 @@ FILE — src/lib/groq.ts
 Export ONE async function `tailorResume(resumeText: string, jdText: string): Promise<TailoringResult>`:
 
 - Instantiate Groq client with apiKey from process.env.GROQ_API_KEY.
-- Use model = process.env.GROQ_MODEL ?? "llama-3.3-70b-versatile".
+- Use model = process.env.GROQ_MODEL ?? "openai/gpt-oss-120b".
 - Call groq.chat.completions.create with temperature 0.3, response_format { type: "json_object" }, max_tokens 2500.
 
 System prompt (use this exact text):
@@ -216,7 +216,7 @@ State management:
 
 Header (always visible at top of page):
 - Sparkles icon + "Resume Shapeshifter" title in indigo.
-- Below the header, a small footer line: "Powered by Groq + Llama 3.3 70B. Need a free key? console.groq.com/keys".
+- Below the header, a small footer line: "Powered by Groq + GPT-OSS-120B. Need a free key? console.groq.com/keys".
 
 INPUT state UI:
 - Two large textareas, side by side on desktop (lg:grid-cols-2), stacked on mobile. 12 rows each. Labels "Paste your resume" and "Paste the job description".

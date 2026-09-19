@@ -3,10 +3,10 @@
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useTailoringStore } from "@/lib/store/tailoring-store";
-import { searchJobs } from "@/lib/api/platform-client";
+import { searchJobs, fetchJobDescription } from "@/lib/api/platform-client";
 import { JobRecord } from "@/lib/schemas/platform";
 import { Button } from "@/components/ui/button";
-import { Search, AlertCircle, MapPin, Building2, ArrowRight, Briefcase } from "lucide-react";
+import { Search, AlertCircle, MapPin, Building2, ArrowRight, Briefcase, Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const ALL_SOURCES = ["RemoteOK", "Naukri", "Wellfound"];
@@ -23,6 +23,8 @@ export default function DiscoverPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [searched, setSearched] = useState(false);
+  // job_url of the card whose full description is currently being fetched.
+  const [fetchingUrl, setFetchingUrl] = useState<string | null>(null);
 
   const toggleSource = (s: string) =>
     setSources((prev) => (prev.includes(s) ? prev.filter((x) => x !== s) : [...prev, s]));
@@ -51,10 +53,9 @@ export default function DiscoverPage() {
     }
   };
 
-  const handleSelect = (job: JobRecord) => {
-    setSelectedJob(job);
-    // Seed the tailor step's JD from the job so no copy-paste is needed.
-    const jd = [
+  /** Card metadata only — the fallback when the detail page can't be reached. */
+  const buildHeader = (job: JobRecord) =>
+    [
       `Job Title: ${job.job_title}`,
       `Company: ${job.company}`,
       job.location ? `Location: ${job.location}` : "",
@@ -65,7 +66,37 @@ export default function DiscoverPage() {
     ]
       .filter(Boolean)
       .join("\n");
-    setJDText(jd);
+
+  const handleSelect = async (job: JobRecord) => {
+    setError(null);
+    setFetchingUrl(job.job_url);
+
+    // Search results only carry listing-card metadata. Pull the real
+    // description off the detail page so the tailoring pipeline sees actual
+    // responsibilities and requirements, not just a title and a URL.
+    let description = "";
+    try {
+      if (job.job_url) {
+        const result = await fetchJobDescription(job.job_url);
+        description = result.description ?? "";
+      }
+    } catch (err) {
+      // Non-fatal: fall back to metadata rather than blocking the flow.
+      console.warn("Full job description unavailable:", err);
+    } finally {
+      setFetchingUrl(null);
+    }
+
+    setSelectedJob({ ...job, description });
+
+    if (!description) {
+      setError(
+        "Couldn't load the full description for that listing — continuing with the summary. " +
+          "Paste the description on the next screen for a more accurate match."
+      );
+    }
+
+    setJDText(description ? `${buildHeader(job)}\n\n${description}` : buildHeader(job));
     router.push("/input");
   };
 
@@ -185,9 +216,19 @@ export default function DiscoverPage() {
               </div>
               <Button
                 onClick={() => handleSelect(job)}
-                className="shrink-0 h-10 rounded-xl text-xs font-bold bg-accent-secondary hover:bg-accent-secondary/90 text-white px-4 cursor-pointer"
+                disabled={fetchingUrl !== null}
+                className="shrink-0 h-10 rounded-xl text-xs font-bold bg-accent-secondary hover:bg-accent-secondary/90 text-white px-4 cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
               >
-                Tailor for this <ArrowRight className="w-3.5 h-3.5 ml-1" />
+                {fetchingUrl === job.job_url ? (
+                  <>
+                    <Loader2 className="w-3.5 h-3.5 mr-1 animate-spin" />
+                    Loading description…
+                  </>
+                ) : (
+                  <>
+                    Tailor for this <ArrowRight className="w-3.5 h-3.5 ml-1" />
+                  </>
+                )}
               </Button>
             </div>
           ))}

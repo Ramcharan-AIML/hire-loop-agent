@@ -207,7 +207,7 @@ export async function tailorResume(
     throw new Error("GROQ_API_KEY is missing in .env.local");
   }
 
-  const model = process.env.GROQ_MODEL ?? "llama-3.3-70b-versatile";
+  const model = process.env.GROQ_MODEL ?? "openai/gpt-oss-120b";
   const client = new Groq({ apiKey });
   const userPrompt = buildUserPrompt(resumeText, jdText);
 

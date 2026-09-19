@@ -1,11 +1,12 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { LLMAdapter } from "../types";
+import { DEFAULT_GEMINI_MODEL } from "../models";
 
 export class GeminiAdapter implements LLMAdapter {
   private client: GoogleGenerativeAI;
   private defaultModel: string;
 
-  constructor(apiKey: string, defaultModel = "gemini-2.0-flash") {
+  constructor(apiKey: string, defaultModel = DEFAULT_GEMINI_MODEL) {
     if (!apiKey) {
       throw new Error("GOOGLE_API_KEY is not defined.");
     }

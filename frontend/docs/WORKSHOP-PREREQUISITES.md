@@ -89,7 +89,7 @@ Groq is the AI service that powers your app. It's free, it's fast, and it never 
 **Free tier limits (more than enough for the workshop):**
 - 30 API requests per minute
 - 14,400 requests per day
-- Llama 3.3 70B model included
+- GPT-OSS-120B model included
 
 ---
 
